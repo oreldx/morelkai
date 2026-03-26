@@ -1,0 +1,21 @@
+{
+  "name": "monokai-winter-nigh-orel",
+  "displayName": "monokai-winter-nigh-orel",
+  "description": "My own version of the monokai-winter-night",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.110.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Monokai Winter Night Orel",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Monokai Winter Night Orel-color-theme.json"
+      }
+    ]
+  }
+}
