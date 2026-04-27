@@ -329,7 +329,7 @@
 		//"editor.foldBackground": "#4646464d",
 		//"editor.symbolHighlightBackground": "#363C54",
 		//"editorActiveLineNumber.foreground": "#c6c6c6",
-		//"editorGutter.commentRangeForeground": "#c5c5c5",
+		"editorGutter.commentRangeForeground": "#ffffff",
 		//"editorHoverWidget.foreground": "#cadbeb",
 		//"editorHoverWidget.statusBarBackground": "#414141",
 		//"editorLightBulb.foreground": "#ffcc00",
@@ -434,7 +434,7 @@
 		{
 			"scope": "comment",
 			"settings": {
-				"foreground": "#546575"
+				"foreground": "#cfd5db"
 			}
 		},
 		{
