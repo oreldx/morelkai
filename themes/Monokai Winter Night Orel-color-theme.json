@@ -527,6 +527,18 @@
 			}
 		},
 		{
+			"scope": [
+				"variable.function",
+				"meta.function-call entity.name.function",
+				"entity.name.function.call",
+				"meta.function-call.generic.python",
+			],
+			"settings": {
+				"foreground": "#2EE252",
+				"fontStyle": ""
+			}
+		},
+		{
 			"scope": "variable.parameter",
 			"settings": {
 				"foreground": "#FD971F",
