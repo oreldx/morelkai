@@ -15,6 +15,11 @@
         "label": "Monokai Winter Night Orel",
         "uiTheme": "vs-dark",
         "path": "./themes/Monokai Winter Night Orel-color-theme.json"
+      },
+      {
+        "label": "Monokai Winter Day Orel",
+        "uiTheme": "vs",
+        "path": "./themes/Monokai Winter Day Orel-color-theme.json"
       }
     ]
   }
