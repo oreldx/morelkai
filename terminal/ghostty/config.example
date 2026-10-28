@@ -1,0 +1,3 @@
+# Merge into your Ghostty config after installing both files in ./themes/.
+theme = light:morelkai day,dark:morelkai night
+window-theme = system

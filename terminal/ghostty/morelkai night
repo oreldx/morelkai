@@ -1,0 +1,24 @@
+# Generated from the matching VS Code theme.
+background = #121726
+foreground = #cadbeb
+cursor-color = #f2f2f2
+cursor-text = #121726
+selection-background = #333845
+selection-foreground = #cadbeb
+
+palette = 0=#333333
+palette = 1=#c4265e
+palette = 2=#178544
+palette = 3=#b3b42b
+palette = 4=#6a7ec8
+palette = 5=#8c6bc8
+palette = 6=#56adbc
+palette = 7=#e3e3dd
+palette = 8=#677078
+palette = 9=#f92672
+palette = 10=#a6e22e
+palette = 11=#e2e22e
+palette = 12=#819aff
+palette = 13=#ae81ff
+palette = 14=#66d9ef
+palette = 15=#f8f8f2
