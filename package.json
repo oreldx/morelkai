@@ -1,7 +1,7 @@
 {
-  "name": "monokai-winter-nigh-orel",
-  "displayName": "monokai-winter-nigh-orel",
-  "description": "My own version of the monokai-winter-night",
+  "name": "morelkai",
+  "displayName": "morelkai",
+  "description": "A customized color theme with morelkai night (dark) and morelkai day (light) variants.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.110.0"
@@ -12,14 +12,14 @@
   "contributes": {
     "themes": [
       {
-        "label": "Monokai Winter Night Orel",
+        "label": "morelkai night",
         "uiTheme": "vs-dark",
-        "path": "./themes/Monokai Winter Night Orel-color-theme.json"
+        "path": "./themes/morelkai-night-color-theme.json"
       },
       {
-        "label": "Monokai Winter Day Orel",
+        "label": "morelkai day",
         "uiTheme": "vs",
-        "path": "./themes/Monokai Winter Day Orel-color-theme.json"
+        "path": "./themes/morelkai-day-color-theme.json"
       }
     ]
   }
