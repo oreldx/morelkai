@@ -1,36 +1,13 @@
 #!/usr/bin/env python3
 """Export the VS Code palettes to Herdr and Ghostty (standard library only)."""
 
-import json
-from pathlib import Path
-import re
+from theme_source import ROOT, load_colors, opaque
 
-ROOT = Path(__file__).resolve().parents[1]
 ANSI = (
     "Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White",
     "BrightBlack", "BrightRed", "BrightGreen", "BrightYellow", "BrightBlue",
     "BrightMagenta", "BrightCyan", "BrightWhite",
 )
-
-
-def load_colors(variant):
-    path = ROOT / "themes" / f"morelkai-{variant}-color-theme.json"
-    # Preserve quoted strings while removing JSONC comments and trailing commas.
-    source = re.sub(r'"(?:\\.|[^"\\])*"|//[^\n]*|/\*[\s\S]*?\*/',
-                    lambda m: m[0] if m[0].startswith('"') else "", path.read_text())
-    source = re.sub(r',(?=\s*[}\]])', '', source)
-    return json.loads(source)["colors"]
-
-
-def opaque(color, background):
-    """Composite VS Code's RRGGBBAA selection over the terminal background."""
-    if len(color) == 7:
-        return color
-    alpha = int(color[7:9], 16) / 255
-    channels = [round(int(color[i:i + 2], 16) * alpha
-                      + int(background[i:i + 2], 16) * (1 - alpha))
-                for i in (1, 3, 5)]
-    return "#" + "".join(f"{channel:02x}" for channel in channels)
 
 
 def herdr_colors(c):
