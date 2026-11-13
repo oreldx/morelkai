@@ -4,6 +4,6 @@ Un thème personnalisé avec deux variantes : **morelkai night** (sombre) et **m
 
 Based from the [original Monokai Winter Night theme by Carlos Panganiban](https://marketplace.visualstudio.com/items?itemName=cgpanganiban.monokai-winter-night&ssr=false#overview).
 
-Les variantes **night** et **day** sont aussi disponibles pour [Herdr, Ghostty et Zsh](terminal/README.md), avec adaptation automatique au mode clair/sombre du système.
+Les variantes **night** et **day** sont aussi disponibles pour [Herdr, Ghostty et Zsh](terminal/README.md), avec adaptation automatique au mode clair/sombre du système, ainsi que pour [Claude Code](terminal/README.md#4-claude-code).
 
 Un [portage pour Codex](codex/README.md) fournit les couleurs de l'application et les thèmes de coloration syntaxique du CLI, dans les deux variantes.

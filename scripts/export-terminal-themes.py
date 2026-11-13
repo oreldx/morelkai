@@ -1,13 +1,92 @@
 #!/usr/bin/env python3
-"""Export the VS Code palettes to Herdr and Ghostty (standard library only)."""
+"""Export the VS Code palettes to Herdr, Ghostty and Claude Code (standard library only)."""
 
-from theme_source import ROOT, load_colors, opaque
+import json
+
+from theme_source import ROOT, load_colors, load_theme, opaque
 
 ANSI = (
     "Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White",
     "BrightBlack", "BrightRed", "BrightGreen", "BrightYellow", "BrightBlue",
     "BrightMagenta", "BrightCyan", "BrightWhite",
 )
+
+
+def scope_color(theme, scope):
+    """Foreground of the first token rule whose scope list names `scope`."""
+    for rule in theme["tokenColors"]:
+        scopes = rule.get("scope", [])
+        if isinstance(scopes, str):
+            scopes = [s.strip() for s in scopes.split(",")]
+        if scope in scopes and "foreground" in rule.get("settings", {}):
+            return rule["settings"]["foreground"].lower()
+    raise KeyError(scope)
+
+
+def scale_alpha(color, factor):
+    """Strengthen or soften an RRGGBBAA color before compositing it."""
+    alpha = min(255, round(int(color[7:9], 16) * factor))
+    return f"{color[:7]}{alpha:02x}"
+
+
+def shimmer(color):
+    """Lighter variant used by Claude Code's animated spinner gradient."""
+    return opaque(color + "99", "#ffffff")
+
+
+def claude_colors(theme):
+    c = theme["colors"]
+    bg = c["terminal.background"]
+    accent = c["terminal.ansiBrightMagenta"]
+    orange = scope_color(theme, "variable.parameter")
+    inserted = c["diffEditor.insertedTextBackground"]
+    removed = c["diffEditor.removedTextBackground"]
+    tokens = {
+        "claude": accent,
+        "text": c["terminal.foreground"],
+        "inverseText": bg,
+        "inactive": c["terminal.ansiBrightBlack"],
+        "subtle": c["gitDecoration.ignoredResourceForeground"],
+        "suggestion": c["terminal.ansiBrightBlue"],
+        "permission": c["terminal.ansiBrightCyan"],
+        "remember": c["terminal.ansiBrightBlue"],
+        "success": c["terminal.ansiBrightGreen"],
+        "error": c["terminal.ansiBrightRed"],
+        "warning": c["terminal.ansiBrightYellow"],
+        "merged": c["terminal.ansiMagenta"],
+        "promptBorder": c["editorLineNumber.foreground"],
+        "planMode": c["terminal.ansiCyan"],
+        "autoAccept": c["terminal.ansiMagenta"],
+        "bashBorder": c["terminal.ansiBrightRed"],
+        "ide": c["terminal.ansiBlue"],
+        "fastMode": orange,
+        "diffAdded": opaque(inserted, bg),
+        "diffRemoved": opaque(removed, bg),
+        "diffAddedDimmed": opaque(scale_alpha(inserted, 0.5), bg),
+        "diffRemovedDimmed": opaque(scale_alpha(removed, 0.5), bg),
+        "diffAddedWord": opaque(scale_alpha(inserted, 2.5), bg),
+        "diffRemovedWord": opaque(scale_alpha(removed, 2.5), bg),
+        "userMessageBackground": c["editor.selectionHighlightBackground"],
+        "userMessageBackgroundHover": c["list.activeSelectionBackground"],
+        "selectionBg": opaque(c["terminal.selectionBackground"], bg),
+        "composerSidebarBackground": c["sideBar.background"],
+        "rate_limit_fill": accent,
+        "rate_limit_empty": c["gitDecoration.ignoredResourceForeground"],
+        "briefLabelYou": c["terminal.ansiBrightBlue"],
+        "briefLabelClaude": accent,
+        "red_FOR_SUBAGENTS_ONLY": c["terminal.ansiBrightRed"],
+        "blue_FOR_SUBAGENTS_ONLY": c["terminal.ansiBrightBlue"],
+        "green_FOR_SUBAGENTS_ONLY": c["terminal.ansiBrightGreen"],
+        "yellow_FOR_SUBAGENTS_ONLY": c["terminal.ansiBrightYellow"],
+        "purple_FOR_SUBAGENTS_ONLY": c["terminal.ansiBrightMagenta"],
+        "orange_FOR_SUBAGENTS_ONLY": orange,
+        "pink_FOR_SUBAGENTS_ONLY": c["terminal.ansiRed"],
+        "cyan_FOR_SUBAGENTS_ONLY": c["terminal.ansiBrightCyan"],
+    }
+    for token in ("claude", "warning", "permission", "promptBorder",
+                  "inactive", "fastMode"):
+        tokens[token + "Shimmer"] = shimmer(tokens[token])
+    return {key: value.lower() for key, value in tokens.items()}
 
 
 def herdr_colors(c):
@@ -67,6 +146,13 @@ def main():
         text += "\n" + "".join(f'palette = {i}={c["terminal.ansi" + color]}\n'
                                 for i, color in enumerate(ANSI))
         (ghostty / name).write_text(text)
+    claude = ROOT / "terminal" / "claude"
+    claude.mkdir(parents=True, exist_ok=True)
+    for variant, base in (("night", "dark"), ("day", "light")):
+        theme = {"name": f"morelkai {variant}", "base": base,
+                 "overrides": claude_colors(load_theme(variant))}
+        (claude / f"morelkai-{variant}.json").write_text(
+            json.dumps(theme, indent=2) + "\n")
 
 
 if __name__ == "__main__":

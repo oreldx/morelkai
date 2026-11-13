@@ -1,4 +1,4 @@
-# morelkai — Ghostty, Herdr et Zsh
+# morelkai — Ghostty, Herdr, Zsh et Claude Code
 
 Les deux palettes reprennent les thèmes VS Code du dépôt : fond bleu nuit et accents Monokai pour **night**, fond gris bleuté et accents plus foncés pour **day**. Les 16 couleurs ANSI de Ghostty sont identiques à celles du terminal intégré de VS Code. La sélection semi-transparente de VS Code est composée sur son fond pour Ghostty.
 
@@ -9,6 +9,7 @@ La chaîne est : **apparence macOS → Ghostty → Herdr et prompt Zsh**.
 - Ghostty choisit sa palette avec `theme = light:…,dark:…` selon l'apparence du système.
 - Herdr suit l'apparence signalée par le terminal avec `auto_switch = true`, puis applique `theme.custom.light` ou `theme.custom.dark`.
 - Le prompt Zsh utilise les couleurs ANSI du terminal : il suit leur changement sans script de surveillance ni détection macOS dans chaque shell.
+- Claude Code ne bascule pas : un thème personnalisé est choisi seul, sans paire clair/sombre. Voir [Claude Code](#4-claude-code).
 
 Les options Herdr sont présentes dans la configuration par défaut du binaire local **0.9.3**. En l'absence de détection d'apparence, les couleurs partagées fournissent un repli sombre. Le changement effectif dans les fenêtres ouvertes reste à vérifier dans une session interactive.
 
@@ -84,6 +85,19 @@ source ./terminal/zsh/morelkai.zsh-theme
 
 Quitter ce shell restaure la configuration habituelle. Dans un autre terminal que Ghostty, le prompt utilise la palette de cet autre terminal.
 
+### 4. Claude Code
+
+```sh
+mkdir -p ~/.claude/themes
+cp terminal/claude/morelkai-night.json terminal/claude/morelkai-day.json ~/.claude/themes/
+```
+
+Dans Claude Code, lancer `/theme` et choisir **morelkai night** ou **morelkai day** en fin de liste. La préférence est enregistrée sous la forme `custom:morelkai-night` ou `custom:morelkai-day`. Si le dossier `~/.claude/themes` vient d'être créé, redémarrer Claude Code une fois ; ensuite, les fichiers modifiés sont rechargés à chaud.
+
+Le fond vient du terminal : Claude Code ne colore que son interface. Les thèmes partent des préréglages `dark` et `light` et en remplacent les accents : violet pour Claude et les compteurs, cyan pour les demandes de permission et le mode plan, rose Monokai pour les commandes `!`, vert, jaune et rouge pour les statuts. Les fonds de diff composent les couleurs de `diffEditor` de VS Code sur le fond du terminal, et les fonds de messages reprennent les surfaces de Herdr.
+
+Un thème personnalisé ne suit pas l'apparence macOS, contrairement au préréglage `auto` de Claude Code. Changer de variante avec `/theme` lors d'une bascule clair/sombre.
+
 ## Vérification visuelle
 
 1. Ouvrir une fenêtre Ghostty avec le prompt, puis lancer Herdr.
@@ -99,6 +113,6 @@ Après modification des couleurs des thèmes VS Code :
 python3 scripts/export-terminal-themes.py
 ```
 
-Le script n'utilise que la bibliothèque standard Python. Il régénère les deux fichiers Ghostty et le fichier Herdr, sans modifier de configuration personnelle. Recopier ensuite les palettes et fusionner la section Herdr actualisée.
+Le script n'utilise que la bibliothèque standard Python. Il régénère les deux fichiers Ghostty, le fichier Herdr et les deux thèmes Claude Code, sans modifier de configuration personnelle. Recopier ensuite les palettes et fusionner la section Herdr actualisée.
 
 Références : [thèmes Herdr](https://herdr.dev/docs/configuration/#theme), [options Herdr](https://herdr.dev/docs/config-reference/), [thèmes Ghostty](https://ghostty.org/docs/config/reference#theme).
